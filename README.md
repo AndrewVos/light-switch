@@ -1,4 +1,6 @@
-# Setup
+# Light Switch
+
+## Setup
 
 ```bash
 # Install dependencies
@@ -11,25 +13,25 @@ sudo esptool.py --port /dev/ttyUSB0 erase_flash
 sudo esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --flash_size=4MB 0 esp8266-20180511-v1.9.4.bin
 ```
 
-# Configuration
+## Configuration
 
 ```bash
 cp configuration.json.example configuration.json
 ```
 
-## Getting a Hue API key
+### Getting a Hue API key
 
 ```
 ./hue-api-key.sh
 ```
 
-# Deploy
+## Deploy
 
 ```bash
 ./deploy.sh
 ```
 
-# Connecting to the REPL
+## Connecting to the REPL
 
 ```bash
 sudo picocom /dev/ttyUSB0 --baud 115200
