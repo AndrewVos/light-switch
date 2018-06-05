@@ -17,6 +17,12 @@ sudo esptool.py --port /dev/ttyUSB0 --baud 460800 write_flash --flash_size=4MB 0
 cp configuration.json.example configuration.json
 ```
 
+## Getting a Hue API key
+
+```
+./hue-api-key.sh
+```
+
 # Deploy
 
 ```bash
