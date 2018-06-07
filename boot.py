@@ -28,6 +28,9 @@ def turn_off_led():
     led = machine.Pin(onboard_led, machine.Pin.OUT)
     led.on()
 
+def power_off():
+    machine.deepsleep()
+
 def connect():
     wireless = network.WLAN(network.STA_IF)
     wireless.active(True)
@@ -65,3 +68,4 @@ def toggle_lights():
 
 connect()
 toggle_lights()
+power_off()
