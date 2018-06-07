@@ -68,6 +68,8 @@ def toggle_lights():
         brightness = 254
     elif brightness == 254:
         on = False
+    else:
+        on = False
 
     for light_id in lights:
         print(put(api_url("/lights/" + light_id + "/state"), { 'on': on, "bri": brightness}))
