@@ -28,9 +28,6 @@ def turn_off_led():
     led = machine.Pin(onboard_led, machine.Pin.OUT)
     led.on()
 
-def power_off():
-    machine.deepsleep()
-
 def connect():
     wireless = network.WLAN(network.STA_IF)
     wireless.active(True)
@@ -57,15 +54,37 @@ def put(url, json):
 
 def toggle_lights():
     lights = ujson.loads(get(api_url("/lights")))
-    for light_id in lights:
-        on = lights['1']['state']['on']
-        print("Light " + light_id + " on:", on)
+    on = lights['1']['state']['on']
+    brightness = lights['1']['state']['bri']
 
-        if on:
-            print(put(api_url("/lights/" + light_id + "/state"), { 'on': False, "bri": 150}))
-        else:
-            print(put(api_url("/lights/" + light_id + "/state"), { 'on': True, "bri": 150}))
+    if on == False:
+        on = True
+        brightness = 10
+    elif brightness == 10:
+        on = True
+        brightness = 150
+    elif brightness == 150:
+        on = True
+        brightness = 254
+    elif brightness == 254:
+        on = False
+
+    for light_id in lights:
+        print(put(api_url("/lights/" + light_id + "/state"), { 'on': on, "bri": brightness}))
+
+def watch_for_button_press():
+    button = machine.Pin(0, machine.Pin.IN, machine.Pin.PULL_UP)
+    button_state = button.value()
+
+    while True:
+        new_state = button.value()
+        button_pressed = new_state != button_state and not new_state
+
+        if button_pressed:
+            toggle_lights()
+            time.sleep(.1)
+
+        button_state = new_state
 
 connect()
-toggle_lights()
-power_off()
+watch_for_button_press()
